@@ -62,8 +62,9 @@ node {
     }
     finally {
       // Clean up - Delete test instance
+      def delete_script = "/usr/local/bin/doctl compute droplet delete " + droplet_id + " --force"
       def deleted = sh (
-        script: "/usr/local/bin/doctl compute droplet delete $droplet_id --force",
+        script: delete_script,
         returnStatus: true
       )
       
