@@ -25,7 +25,7 @@ node {
     try {
       // Create remote test server on digital ocean.
       def return_status = sh (
-        script: "/usr/local/bin/doctl compute droplet create TESTINSTANCE.gnuchu.com --no-header --image ubuntu-16-10-x64 --region lon1 --size 512mb --ssh-keys 5411121 --wait",
+        script: "/usr/local/bin/doctl compute droplet create TESTINSTANCE.gnuchu.com --no-header --image ubuntu-16-10-x64 --region lon1 --size 512mb --ssh-keys 5449991 --wait",
         returnStatus: true
       )
 
@@ -53,7 +53,7 @@ node {
 
       // Install apache2 and copy project to remote server using ansible
 
-      def ansible_command = "ansible-playbook -i ./hosts test-server.yml"
+      def ansible_command = "ansible-playbook -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i ./hosts test-server.yml"
       def test_env_build = sh (
         script: ansible_command,
         returnStatus: true
