@@ -53,7 +53,7 @@ node {
 
       // Install apache2 and copy project to remote server using ansible
 
-      def ansible_command = "ansible-playbook -vvvv -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i ./hosts test-server.yml"
+      def ansible_command = "ansible-playbook -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i ./hosts test-server.yml"
       def test_env_build = sh (
         script: ansible_command,
         returnStatus: true
@@ -78,15 +78,15 @@ node {
     }
     finally {
       // Clean up - Delete test instance
-      //def delete_script = "/usr/local/bin/doctl compute droplet delete " + droplet_id + " --force"
-//      def deleted = sh (
-//        script: delete_script,
-//        returnStatus: true
-//      )
-//      
-//      if(deleted!=0) {
-//        error "Droplet not deleted. Please investigate."
-//      }
+      def delete_script = "/usr/local/bin/doctl compute droplet delete " + droplet_id + " --force"
+      def deleted = sh (
+        script: delete_script,
+        returnStatus: true
+      )
+      
+      if(deleted!=0) {
+        error "Droplet not deleted. Please investigate."
+      }
     }
   }
 }
