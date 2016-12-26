@@ -6,7 +6,7 @@
   become_method: sudo
   tasks:
   - name: install python
-    raw: test -e /usr/bin/python || (apt-get update && apt-get install -y python-minimal)
+    raw: test -e /usr/bin/python || (apt-get -q update && apt-get install -q -y python-minimal)
   - name: install apache
     apt: 
       update_cache: yes
