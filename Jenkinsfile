@@ -37,6 +37,11 @@ node {
         returnStdout: true
       ).trim()
 
+      def droplet_id = sh (
+        script: '/ust/local/bin/doctl compute droplet list --format ID --no-header TESTINSTANCE.gnuchu.com',
+        returnStdout: true
+      ).trim()
+
       //def hosts_file = new File('./hosts')
       //hosts_file.write("[TESTINSTANCE.gnuchu.com]\n")
       //hosts_file.write(ip_address)
@@ -56,7 +61,7 @@ node {
     finally {
       // Clean up - Delete test instance
       def deleted = sh (
-        script: '/usr/local/bin/doctl compute droplet delete TESTINSTANCE.gnuchu.com --force',
+        script: '/usr/local/bin/doctl compute droplet delete ${droplet_id} --force',
         returnStatus: true
       )
       
