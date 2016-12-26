@@ -48,7 +48,7 @@ node {
 
       println "Droplet ID is: " + droplet_id
 
-      def text_line = '[TESTINSTANCE.gnuchu.com]\n' + ip_address
+      def text_line = '[TESTINSTANCE]\n' + ip_address + "\n"
       writeFile file: './hosts', text: text_line 
 
       // Install apache2 and copy project to remote server using ansible
