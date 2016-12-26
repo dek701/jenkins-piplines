@@ -56,7 +56,7 @@ node {
     finally {
       // Clean up - Delete test instance
       def deleted = sh (
-        script: '/usr/local/bin/doctl compute droplet delete TESTINSTANCE.gnuchu.com --forcedoctl compute droplet delete TESTINSTANCE.gnuchu.com --force',
+        script: '/usr/local/bin/doctl compute droplet delete TESTINSTANCE.gnuchu.com --force',
         returnStatus: true
       )
       
