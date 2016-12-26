@@ -13,10 +13,10 @@ node {
     ).trim()
 
     if(page_output.indexOf('Hello, World!')) {
-      println "Test Worked"
+      println "Local Test Worked"
     }
     else {
-      error 'Test Failed'
+      error 'Local Test Failed'
     }
   }
   stage('Remote Test') {
@@ -51,14 +51,29 @@ node {
       def text_line = '[TESTINSTANCE.gnuchu.com]\n' + ip_address
       writeFile file: './hosts', text: text_line 
 
-      def files = sh (
-        script: 'ls -lrt',
+      // Install apache2 and copy project to remote server using ansible
+
+      def ansible_command = "ansible-playbook -i ./hosts test-server.yml"
+      def test_env_build = sh (
+        script: ansible_command,
+        returnStatus: true
+      )
+      if(test_env_build!=0) {
+        error "Failure in test environment build."
+      }
+
+      def test_curl = 'curl ' + ip_address
+      def page_output = sh (
+        script: test_curl
         returnStdout: true
       ).trim()
 
-      println files
-
-      // Install apache2 and copy project to remote server
+      if(page_output.indexOf('Hello, World!')) {
+        println "Remote Test Worked"
+      }
+      else {
+        error 'Remote Test Failed'
+      }
 
     }
     finally {

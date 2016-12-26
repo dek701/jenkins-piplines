@@ -1,0 +1,21 @@
+---
+- hosts: TESTINSTANCE
+  gather_facts: false
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: check_python
+    raw: test -e /usr/bin/python || (apt-get update && apt-get install -y python-minimal)
+  - name: easy_install
+    apt: pkg=python-setuptools
+  - name: pip
+    easy_install: name=pip
+  - name: apache
+    apt: pkg=apache2
+  - copy:
+      src: ./index.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      force: yes
