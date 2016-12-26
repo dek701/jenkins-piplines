@@ -38,7 +38,7 @@ node {
       ).trim()
 
       def droplet_id = sh (
-        script: '/ust/local/bin/doctl compute droplet list --format ID --no-header TESTINSTANCE.gnuchu.com',
+        script: '/usr/local/bin/doctl compute droplet list --format ID --no-header TESTINSTANCE.gnuchu.com',
         returnStdout: true
       ).trim()
 
