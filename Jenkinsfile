@@ -48,16 +48,15 @@ node {
 
       println "Droplet ID is: " + droplet_id
 
-      //def hosts_file = new File('./hosts')
-      //hosts_file.write("[TESTINSTANCE.gnuchu.com]\n")
-      //hosts_file.write(ip_address)
-//
-      //def files = sh (
-        //script: 'ls -lrt',
-        //returnStdout: true
-      //).trim
-//
-      //println files
+      def text_line = '[TESTINSTANCE.gnuchu.com]\n' + ip_address
+      writeFile file: './hosts', text: text_line 
+
+      def files = sh (
+        script: 'ls -lrt',
+        returnStdout: true
+      ).trim()
+
+      println files
 
       // Install apache2 and copy project to remote server
 
