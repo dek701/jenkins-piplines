@@ -6,7 +6,7 @@ node {
 
   stage('Local Test') {
     //Run local node use and die test server to sanity checkout our code before pushing to cloud.
-    sh 'node test-server.js &'
+    sh 'node test/test-server.js &'
     def page_output = sh (
       script: 'curl localhost:8888',
       returnStdout: true
@@ -56,7 +56,7 @@ node {
 
       sh ('sleep 30')
 
-      def ansible_command = "ansible-playbook -e 'host_key_checking=False' -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i ./hosts test-server.yml"
+      def ansible_command = "ansible-playbook -e 'host_key_checking=False' -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i ./hosts test/test-server.yml"
       def test_env_build = sh (
         script: ansible_command,
         returnStatus: true
