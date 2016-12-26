@@ -20,6 +20,8 @@ node {
     }
   }
   stage('Remote Test') {
+    def droplet_id = ""
+
     try {
       // Create remote test server on digital ocean.
       def return_status = sh (
@@ -39,7 +41,7 @@ node {
       
       println "IP Address is: " + ip_address      
 
-      def droplet_id = sh (
+      droplet_id = sh (
         script: '/usr/local/bin/doctl compute droplet list --format ID --no-header TESTINSTANCE.gnuchu.com',
         returnStdout: true
       ).trim()
