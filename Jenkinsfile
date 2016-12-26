@@ -36,11 +36,15 @@ node {
         script: "/usr/local/bin/doctl compute droplet list --no-header --format PublicIPv4 TESTINSTANCE.gnuchu.com",
         returnStdout: true
       ).trim()
+      
+      println "IP Address is: " + ip_address      
 
       def droplet_id = sh (
         script: '/usr/local/bin/doctl compute droplet list --format ID --no-header TESTINSTANCE.gnuchu.com',
         returnStdout: true
       ).trim()
+
+      println "Droplet ID is: " + droplet_id
 
       //def hosts_file = new File('./hosts')
       //hosts_file.write("[TESTINSTANCE.gnuchu.com]\n")
@@ -53,15 +57,13 @@ node {
 //
       //println files
 
-      println ip_address
-
       // Install apache2 and copy project to remote server
 
     }
     finally {
       // Clean up - Delete test instance
       def deleted = sh (
-        script: '/usr/local/bin/doctl compute droplet delete ${droplet_id} --force',
+        script: "/usr/local/bin/doctl compute droplet delete ${droplet_id} --force",
         returnStatus: true
       )
       
