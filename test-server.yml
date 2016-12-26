@@ -5,14 +5,11 @@
   become_user: root
   become_method: sudo
   tasks:
-  - name: check_python
-    raw: test -e /usr/bin/python || (apt-get update && apt-get install -y python2.7-minimal)
-  - name: easy_install
-    apt: pkg=python-setuptools
-  - name: pip
-    easy_install: name=pip
-  - name: apache
-    apt: pkg=apache2
+  - name: install apache
+    apt: 
+      update_cache: yes
+      name: apache2
+      state: present 
   - copy:
       src: ./index.html
       dest: /var/www/html/index.html
