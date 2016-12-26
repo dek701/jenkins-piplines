@@ -1,9 +1,10 @@
 #!groovy
 
 node {
+  //Checkout source
+  checkout scm
+  
   stage('Local Test') {
-    //Checkout source
-    checkout scm
     //Run local node use and die test server to sanity checkout our code before pushing to cloud.
     sh 'node test-server.js &'
     def page_output = sh (
@@ -19,6 +20,5 @@ node {
     }
   }
   stage('Remote Test') {
-    echo 'Should run'
   }
 }
