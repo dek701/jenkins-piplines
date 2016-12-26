@@ -8,7 +8,7 @@ node {
     //Run local node use and die test server to sanity checkout our code before pushing to cloud.
     sh 'node test/test-server.js &'
     def page_output = sh (
-      script: 'curl localhost:8888',
+      script: 'curl localhost:8999',
       returnStdout: true
     ).trim()
 

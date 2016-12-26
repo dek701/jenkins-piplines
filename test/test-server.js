@@ -4,7 +4,7 @@
 var http = require('http');
 var fs = require('fs');
 
-const PORT = 8888;
+const PORT = randomPort(8999);
 var server = http.createServer();
 
 server.on('request', function(req,res) {
