@@ -20,43 +20,49 @@ node {
     }
   }
   stage('Remote Test') {
-    // Create remote test server on digital ocean.
-    def return_status = sh (
-      script: "/usr/local/bin/doctl compute droplet create TESTINSTANCE.gnuchu.com --no-header --image ubuntu-16-10-x64 --region lon1 --size 512mb --ssh-keys 5411121 --wait",
-      returnStatus: true
-    )
+    try {
+      // Create remote test server on digital ocean.
+      def return_status = sh (
+        script: "/usr/local/bin/doctl compute droplet create TESTINSTANCE.gnuchu.com --no-header --image ubuntu-16-10-x64 --region lon1 --size 512mb --ssh-keys 5411121 --wait",
+        returnStatus: true
+      )
 
-    if(return_status!=0) {
-      error "Droplet not created. Please investigate."
+      if(return_status!=0) {
+        error "Droplet not created. Please investigate."
+      }
+
+      //Dig out the IP for our newly created server.
+      def ip_address = sh (
+        script: "/usr/local/bin/doctl compute droplet list --no-header --format PublicIPv4 TESTINSTANCE.gnuchu.com",
+        returnStdout: true
+      ).trim()
+
+      //def hosts_file = new File('./hosts')
+      //hosts_file.write("[TESTINSTANCE.gnuchu.com]\n")
+      //hosts_file.write(ip_address)
+//
+      //def files = sh (
+        //script: 'ls -lrt',
+        //returnStdout: true
+      //).trim
+//
+      //println files
+
+      println ip_address
+
+      // Install apache2 and copy project to remote server
+
     }
-
-    //Dig out the IP for our newly created server.
-    def ip_address = sh (
-      script: "/usr/local/bin/doctl compute droplet list --no-header --format PublicIPv4 TESTINSTANCE.gnuchu.com",
-      returnStdout: true
-    ).trim()
-
-    def hosts_file = new File('./hosts')
-    hosts_file.write("[TESTINSTANCE.gnuchu.com]\n")
-    hosts_file.write(ip_address)
-
-    def files = sh (
-      script: 'ls -lrt',
-      returnStdout: true
-    ).trim
-
-    println files
-
-    // Install apache2 and copy project to remote server
-
-    // Clean up - Delete test instance
-    def deleted = sh (
-      script: 'doctl compute droplet delete TESTINSTANCE.gnuchu.com --forcedoctl compute droplet delete TESTINSTANCE.gnuchu.com --force',
-      returnStatus: true
-    )
-    
-    if(deleted!=0) {
-      error "Droplet not deleted. Please investigate."
+    finally {
+      // Clean up - Delete test instance
+      def deleted = sh (
+        script: 'doctl compute droplet delete TESTINSTANCE.gnuchu.com --forcedoctl compute droplet delete TESTINSTANCE.gnuchu.com --force',
+        returnStatus: true
+      )
+      
+      if(deleted!=0) {
+        error "Droplet not deleted. Please investigate."
+      }
     }
   }
 }
