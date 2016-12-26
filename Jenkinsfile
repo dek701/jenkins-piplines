@@ -78,15 +78,15 @@ node {
     }
     finally {
       // Clean up - Delete test instance
-      def delete_script = "/usr/local/bin/doctl compute droplet delete " + droplet_id + " --force"
-      def deleted = sh (
-        script: delete_script,
-        returnStatus: true
-      )
-      
-      if(deleted!=0) {
-        error "Droplet not deleted. Please investigate."
-      }
+      //def delete_script = "/usr/local/bin/doctl compute droplet delete " + droplet_id + " --force"
+//      def deleted = sh (
+//        script: delete_script,
+//        returnStatus: true
+//      )
+//      
+//      if(deleted!=0) {
+//        error "Droplet not deleted. Please investigate."
+//      }
     }
   }
 }
