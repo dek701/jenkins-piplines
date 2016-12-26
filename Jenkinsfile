@@ -9,6 +9,11 @@ node {
       returnStdout: true
     ).trim()
 
-    echo "${PAGE_OUTPUT}"
+    if(${PAGE_OUTPUT}.indexOf('Hello, World!')) {
+      println "Test Worked"
+    }
+    else {
+      println "Test failed"
+    }
   }
 }
