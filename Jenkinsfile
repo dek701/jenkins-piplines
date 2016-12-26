@@ -53,7 +53,7 @@ node {
 
       // Install apache2 and copy project to remote server using ansible
 
-      def ansible_command = "ansible-playbook -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i ./hosts test-server.yml"
+      def ansible_command = "ansible-playbook -e 'host_key_checking=False' -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i ./hosts test-server.yml"
       def test_env_build = sh (
         script: ansible_command,
         returnStatus: true
