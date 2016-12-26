@@ -1,7 +1,7 @@
 #!groovy
 
 node {
-  stage('Unit Test') {
+  stage('Local Test') {
     checkout scm
     sh 'node test-server.js &'
     def page_output = sh (
@@ -11,9 +11,13 @@ node {
 
     if(page_output.indexOf('Hello, World!')) {
       println "Test Worked"
+      error 'Test Failed'
     }
     else {
-      println "Test failed"
+      error 'Test Failed'
     }
+  }
+  stage('Remote Test') {
+    echo 'Should not run'
   }
 }
