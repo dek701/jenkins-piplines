@@ -25,6 +25,6 @@ node {
       returnStatus: true
     )
 
-    echo return_status
+    println return_status
   }
 }
