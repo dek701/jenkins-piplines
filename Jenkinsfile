@@ -96,6 +96,6 @@ node {
     // Package the app and push to Artifactory
     sh('mkdir -p build')
     sh('tar cvzf build/com.gnuchu.HelloWorld.app.tgz app/')
-    sh('curl -uadmin:password -T build/com.gnuchu.HelloWorld.app.tgz "http://localhost:8080/artifactory/com.gnuchu.HelloWorld/com.gnuchu.HelloWorld.app.tgz')
+    sh('curl -uadmin:password -T build/com.gnuchu.HelloWorld.app.tgz "http://localhost:8080/artifactory/com.gnuchu.HelloWorld/com.gnuchu.HelloWorld.app.tgz"')
   }
 }
