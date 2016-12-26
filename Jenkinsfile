@@ -64,7 +64,7 @@ node {
 
       def test_curl = 'curl ' + ip_address
       def page_output = sh (
-        script: test_curl
+        script: test_curl,
         returnStdout: true
       ).trim()
 
