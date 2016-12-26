@@ -26,7 +26,7 @@ node {
       returnStatus: true
     )
 
-    if(returnStatus!=0) {
+    if(return_status!=0) {
       error "Droplet not created. Please investigate."
     }
 
