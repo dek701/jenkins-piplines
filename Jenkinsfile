@@ -26,6 +26,10 @@ node {
       returnStatus: true
     )
 
+    if(returnStatus!=0) {
+      error "Droplet not created. Please investigate."
+    }
+
     //Dig out the IP for our newly created server.
     def ip_address = sh (
       script: "/usr/local/bin/doctl compute droplet list --no-header --format PublicIPv4 TESTINSTANCE.gnuchu.com",
@@ -45,8 +49,14 @@ node {
 
     // Install apache2 and copy project to remote server
 
-    // Delete test instance
-
-    println return_status
+    // Clean up - Delete test instance
+    def deleted = sh (
+      script: 'doctl compute droplet delete TESTINSTANCE.gnuchu.com --forcedoctl compute droplet delete TESTINSTANCE.gnuchu.com --force',
+      returnStatus: true
+    )
+    
+    if(deleted!=0) {
+      error "Droplet not deleted. Please investigate."
+    }
   }
 }
