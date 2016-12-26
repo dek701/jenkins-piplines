@@ -21,7 +21,7 @@ node {
   }
   stage('Remote Test') {
     def return_status = sh (
-      script: "doctl compute droplet create TESTINSTANCE.gnuchu.com --no-header --image ubuntu-16-10-x64 --region lon1 --size 512mb --ssh-keys 5411121 --wait",
+      script: "/usr/local/bin/doctl compute droplet create TESTINSTANCE.gnuchu.com --no-header --image ubuntu-16-10-x64 --region lon1 --size 512mb --ssh-keys 5411121 --wait",
       returnStatus: true
     )
 
