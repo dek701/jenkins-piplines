@@ -94,8 +94,16 @@ node {
   }
   stage('Package') {
     // Package the app and push to Artifactory
+    // Instroduce error checking etc.
     sh('mkdir -p build')
     sh('tar cvzf build/com.gnuchu.HelloWorld.app.tgz app/')
     sh('curl -uadmin:password -T build/com.gnuchu.HelloWorld.app.tgz "http://localhost:8080/artifactory/com.gnuchu.HelloWorld/com.gnuchu.HelloWorld.app.tgz"')
+  }
+  
+  stage('Production') {
+    sh('mkdir -p production/artifacts')
+    sh('curl -uadmin:password -o production/artifacts/com.gnuchu.HelloWorld.app.tgz http://localhost:8080/artifactory/com.gnuchu.HelloWorld/com.gnuchu.HelloWorld.app.tgz')
+    sh('cd production/artifacts && tar xvzf com.gnuchu.HelloWorld.app.tgz && cd -')
+    sh('ansible-playbook -e 'host_key_checking=False' -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i production/hosts production/production-server.yml')
   }
 }
