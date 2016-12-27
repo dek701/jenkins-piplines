@@ -104,6 +104,6 @@ node {
     sh('mkdir -p production/artifacts')
     sh('curl -uadmin:password -o production/artifacts/com.gnuchu.HelloWorld.app.tgz http://localhost:8080/artifactory/com.gnuchu.HelloWorld/com.gnuchu.HelloWorld.app.tgz')
     sh('cd production/artifacts && tar xvzf com.gnuchu.HelloWorld.app.tgz && cd -')
-    sh('ansible-playbook -e 'host_key_checking=False' -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i production/hosts production/production-server.yml')
+    sh("ansible-playbook -e 'host_key_checking=False' -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i production/hosts production/production-server.yml")
   }
 }
