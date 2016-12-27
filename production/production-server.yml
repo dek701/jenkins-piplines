@@ -13,7 +13,7 @@
       name: apache2
       state: present 
   - copy:
-      src: artifact/app/index.html
+      src: artifacts/app/index.html
       dest: /var/www/html/index.html
       owner: root
       group: root
