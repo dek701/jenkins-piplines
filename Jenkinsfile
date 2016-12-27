@@ -3,6 +3,7 @@
 node {
   //Checkout source - don't put into a stage as we want to use same checkout for all stages - just in case someone checks in while we're testing.
   checkout scm
+  def PRODUCTION_IP='46.101.3.129'
 
   stage('Local Test') {
     //Run local node use and die test server to sanity checkout our code before pushing to cloud.
@@ -101,12 +102,14 @@ node {
   }
   
   stage('Production') {
+    input message: 'Deploy to Production?', submitter: 'admin'
+    
     sh('mkdir -p production/artifacts')
     sh('curl -uadmin:password -o production/artifacts/com.gnuchu.HelloWorld.app.tgz http://localhost:8080/artifactory/com.gnuchu.HelloWorld/com.gnuchu.HelloWorld.app.tgz')
     sh('cd production/artifacts && tar xvzf com.gnuchu.HelloWorld.app.tgz && cd -')
     sh("ansible-playbook -e 'host_key_checking=False' -u root --private-key /usr/share/tomcat7/.ssh/id_rsa -i production/hosts production/production-server.yml")
 
-    def production_test_script = 'curl 46.101.3.129'
+    def production_test_script = 'curl ' + PRODUCTION_IP
     def production_test = sh (
       script: production_test_script,
       returnStdout: true
